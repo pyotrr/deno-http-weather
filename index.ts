@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 
-const WEATHER_ROUTE = new URLPattern({ pathname: "/weather/:city" });
+const CITY_WEATHER_ROUTE = new URLPattern({ pathname: "/city" });
+const ALL_WEATHER_ROUTE = new URLPattern({ pathname: "/get-all" });
 
 function getRandomArbitrary(min: number, max: number) {
   return Math.random() * (max - min) + min;
@@ -17,10 +18,18 @@ function getRandomizedWeatherData() {
 }
 
 function handler(req: Request): Response {
-  const match = WEATHER_ROUTE.exec(req.url);
-  if (match) {
+  const cityMatch = CITY_WEATHER_ROUTE.exec(req.url);
+  if (cityMatch) {
     const weatherData = getRandomizedWeatherData();
-    const cityName = match.pathname.groups.city;
+    const cityName = cityMatch.search.groups["0"];
+    if (!cityName) {
+      return new Response("Invalid city", {
+        status: 400,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+    }
     const cityWeatherData = weatherData.find((data) => data.city === cityName);
     if (cityWeatherData) {
       return Response.json({ temperature: cityWeatherData.temperature }, {
@@ -32,7 +41,17 @@ function handler(req: Request): Response {
       });
     }
   }
-  return new Response("City not found", {
+  const allMatch = ALL_WEATHER_ROUTE.exec(req.url);
+  if (allMatch) {
+    return Response.json(getRandomizedWeatherData(), {
+      status: 200,
+      headers: {
+        "content-type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
+  }
+  return new Response("Not found", {
     status: 404,
     headers: {
       "Access-Control-Allow-Origin": "*",
