@@ -9,11 +9,27 @@ function getRandomArbitrary(min: number, max: number) {
 
 function getRandomizedWeatherData() {
   return [
-    { city: "Oslo", temperature: getRandomArbitrary(10, 18) },
-    { city: "Cracow", temperature: getRandomArbitrary(16, 21) },
-    { city: "Athens", temperature: getRandomArbitrary(27, 33) },
-    { city: "Rome", temperature: getRandomArbitrary(24, 29) },
-    { city: "Sydney", temperature: getRandomArbitrary(22, 28) },
+    {
+      city: "Oslo",
+      temperature: getRandomArbitrary(10, 18),
+      precipitation: getRandomArbitrary(3, 10),
+    },
+    {
+      city: "Cracow",
+      temperature: getRandomArbitrary(16, 21),
+      precipitation: getRandomArbitrary(0, 1.5),
+    },
+    {
+      city: "Athens",
+      temperature: getRandomArbitrary(27, 33),
+      precipitation: 0,
+    },
+    { city: "Rome", temperature: getRandomArbitrary(24, 29), precipitation: 0 },
+    {
+      city: "Sydney",
+      temperature: getRandomArbitrary(22, 28),
+      precipitation: getRandomArbitrary(0, 1.5),
+    },
   ];
 }
 
@@ -32,7 +48,10 @@ function handler(req: Request): Response {
     }
     const cityWeatherData = weatherData.find((data) => data.city === cityName);
     if (cityWeatherData) {
-      return Response.json({ temperature: cityWeatherData.temperature }, {
+      return Response.json({
+        temperature: cityWeatherData.temperature,
+        precipitation: cityWeatherData.precipitation,
+      }, {
         status: 200,
         headers: {
           "content-type": "application/json",
