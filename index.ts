@@ -8,7 +8,8 @@ function getRandomArbitrary(min: number, max: number) {
 
 function getRandomizedWeatherData() {
   return [
-    { city: "Cracow", temperature: getRandomArbitrary(18, 22) },
+    { city: "Oslo", temperature: getRandomArbitrary(10, 18) },
+    { city: "Cracow", temperature: getRandomArbitrary(16, 21) },
     { city: "Athens", temperature: getRandomArbitrary(27, 33) },
     { city: "Rome", temperature: getRandomArbitrary(24, 29) },
     { city: "Sydney", temperature: getRandomArbitrary(22, 28) },
