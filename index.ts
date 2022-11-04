@@ -1,7 +1,10 @@
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 
 const CITY_WEATHER_ROUTE = new URLPattern({ pathname: "/city" });
+const CITIES_ROUTE = new URLPattern({ pathname: "/get-cities "});
 const ALL_WEATHER_ROUTE = new URLPattern({ pathname: "/get-all" });
+
+const CITIES = ["Oslo", "Cracow", "Athens", "Rome", "Sydney"];
 
 function getRandomArbitrary(min: number, max: number) {
   return Math.random() * (max - min) + min;
@@ -69,6 +72,16 @@ function handler(req: Request): Response {
         "Access-Control-Allow-Origin": "*",
       },
     });
+  }
+  const citiesMatch = CITIES_ROUTE.exec(req.url);
+  if (citiesMatch) {
+    return Response.json(CITIES, {
+      status: 200,
+      headers: {
+        "content-type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
   }
   return new Response("Not found", {
     status: 404,
