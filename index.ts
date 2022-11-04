@@ -36,6 +36,12 @@ function getRandomizedWeatherData() {
   ];
 }
 
+const jsonResponseHeaders = {
+  "content-type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Cache-Control": "max-age=60",
+}
+
 function handler(req: Request): Response {
   const cityMatch = CITY_WEATHER_ROUTE.exec(req.url);
   if (cityMatch) {
@@ -56,10 +62,7 @@ function handler(req: Request): Response {
         precipitation: cityWeatherData.precipitation,
       }, {
         status: 200,
-        headers: {
-          "content-type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
+        headers: jsonResponseHeaders,
       });
     }
   }
@@ -67,20 +70,14 @@ function handler(req: Request): Response {
   if (allMatch) {
     return Response.json(getRandomizedWeatherData(), {
       status: 200,
-      headers: {
-        "content-type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
+      headers: jsonResponseHeaders,
     });
   }
   const citiesMatch = CITIES_ROUTE.exec(req.url);
   if (citiesMatch) {
     return Response.json(CITIES, {
       status: 200,
-      headers: {
-        "content-type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
+      headers: jsonResponseHeaders,
     })
   }
   return new Response("Not found", {
