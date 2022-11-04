@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 
 const CITY_WEATHER_ROUTE = new URLPattern({ pathname: "/city" });
-const CITIES_ROUTE = new URLPattern({ pathname: "/get-cities "});
+const CITIES_ROUTE = new URLPattern({ pathname: "/get-cities" });
 const ALL_WEATHER_ROUTE = new URLPattern({ pathname: "/get-all" });
 
 const CITIES = ["Oslo", "Cracow", "Athens", "Rome", "Sydney"];
