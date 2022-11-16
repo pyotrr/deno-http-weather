@@ -39,6 +39,7 @@ function getRandomizedWeatherData() {
 const jsonResponseHeaders = {
   "content-type": "application/json",
   "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "cache-control",
   "Cache-Control": "max-age=60",
 }
 
